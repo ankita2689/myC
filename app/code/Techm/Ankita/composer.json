@@ -1,0 +1,22 @@
+{
+    "name": "techm/module-ankita",
+    "description": "create custom product attribute",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "ankita",
+            "email": "ankita.koli.sarkar@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Techm\\Ankita\\": ""
+        }
+    }
+}
