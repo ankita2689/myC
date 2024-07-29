@@ -1,12 +1,15 @@
 <?php
+
 namespace Techm\Ankita\Setup\Patch\Data;
 
 use Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface;
 use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Setup\EavSetupFactory;
+use Magento\Catalog\Model\Product;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchRevertableInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
 use Techm\Ankita\Model\Product\Attribute\Source\ProdType;
 
@@ -23,10 +26,16 @@ class AddProdTypeProductAttribute implements DataPatchInterface, PatchRevertable
     private $eavSetupFactory;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * Constructor
      *
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param EavSetupFactory $eavSetupFactory
+     * @param LoggerInterface $logger
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
@@ -48,11 +57,11 @@ class AddProdTypeProductAttribute implements DataPatchInterface, PatchRevertable
 			/** @var EavSetup $eavSetup */
 			$eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
 			$eavSetup->addAttribute(
-				\Magento\Catalog\Model\Product::ENTITY,
+				Product::ENTITY,
 				'prod_type',
 				[
 					'type' => 'int',
-					'label' => 'product type',
+					'label' => 'Product Type',
 					'input' => 'select',
 					'source' => ProdType::class,
 					'frontend' => '',
@@ -79,18 +88,20 @@ class AddProdTypeProductAttribute implements DataPatchInterface, PatchRevertable
 			);
 
 			$this->moduleDataSetup->getConnection()->endSetup();
-		} catch (\Exception $e) {
-			$this->logger->critical($e);
+		} catch (LocalizedException $e) {
+			$this->logger->critical($e->getMessage());
 		}
     }
-
+    
+    /**
+     * {@inheritdoc}
+     */
     public function revert()
     {
         $this->moduleDataSetup->getConnection()->startSetup();
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
-        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'prod_type');
-
+        $eavSetup->removeAttribute(Product::ENTITY, 'prod_type');
         $this->moduleDataSetup->getConnection()->endSetup();
     }
 	

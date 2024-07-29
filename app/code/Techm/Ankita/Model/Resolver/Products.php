@@ -1,4 +1,5 @@
 <?php
+
 namespace Techm\Ankita\Model\Resolver;
 
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -7,17 +8,20 @@ use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Techm\Ankita\Model\Resolver\DataProvider\Products;
 
 class Products implements ResolverInterface
 {
-
+    /**
+    * @var Products
+    */
     private $productsDataProvider;
 
     /**
-     * @param DataProvider\Products $productsRepository
+     * @param Products $productsDataProvider
      */
     public function __construct(
-        \Techm\Ankita\Model\Resolver\DataProvider\Products $productsDataProvider
+        Products $productsDataProvider
     ) {
         $this->productsDataProvider = $productsDataProvider;
     }
