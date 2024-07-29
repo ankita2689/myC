@@ -1,10 +1,11 @@
 <?php
 namespace Techm\Ankita\Model\Product\Attribute\Source;
 
-class ProdType extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
-{
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 
-    /**
+class ProdType extends AbstractSource
+{
+	/**
      * getAllOptions
      *
      * @return array

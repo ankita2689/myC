@@ -18,27 +18,23 @@ class Products extends \Magento\Framework\View\Element\Template
 	
 	/**
      * @params string $sku
-     * this function return all the product attribute prod_type by product sku
+     * this function return product attribute prod_type by product sku
+	 * @return array
      **/
-	 public function getAttributesBySku($sku){
+	 public function getAttributesBySku(String $sku){
         $_product = $this->_productRepository->get($sku);
         $attributes = $_product->getAttributes();// All Product Attributes
  
-        $attributes_data = [];
-        $x=0;
+        $attributesData = [];      
         foreach ($attributes as $attribute) {
-            if($attribute->getIsUserDefined()){ // Removed the system product attribute by checking the current attribute is user created
-                $attributeLabel = $attribute->getFrontend()->getLabel();
-                $attributeValue = $attribute->getFrontend()->getValue($_product);
- 
-                if($attribute->getAttributeCode()=="prod_type"){
-                    $attributeLabelAndValue = $attributeLabel." - ".$attributeValue;
-                    $attributes_data[$x]['atr_data'] = $attributeLabelAndValue;
+            if($attribute->getIsUserDefined()){              
+                $attributeValue = $attribute->getFrontend()->getValue($_product); 
+                if($attribute->getAttributeCode()=="prod_type"){                    
+                    $attributesData['prod_type'] = $attributeValue;
                 }
-            }
-            $x++;
+            }            
         }
-        return $attributes_data;
+        return $attributesData;
     }
 }
 

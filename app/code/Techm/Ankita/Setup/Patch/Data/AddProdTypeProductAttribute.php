@@ -8,14 +8,15 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 use Psr\Log\LoggerInterface;
+use Techm\Ankita\Model\Product\Attribute\Source\ProdType;
 
 class AddProdTypeProductAttribute implements DataPatchInterface, PatchRevertableInterface
 {
-
     /**
      * @var ModuleDataSetupInterface
      */
     private $moduleDataSetup;
+	
     /**
      * @var EavSetupFactory
      */
@@ -53,7 +54,7 @@ class AddProdTypeProductAttribute implements DataPatchInterface, PatchRevertable
 					'type' => 'int',
 					'label' => 'product type',
 					'input' => 'select',
-					'source' => \Techm\Ankita\Model\Product\Attribute\Source\ProdType::class,
+					'source' => ProdType::class,
 					'frontend' => '',
 					'required' => false,
 					'backend' => '',
@@ -91,6 +92,24 @@ class AddProdTypeProductAttribute implements DataPatchInterface, PatchRevertable
         $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'prod_type');
 
         $this->moduleDataSetup->getConnection()->endSetup();
+    }
+	
+	/**
+     * {@inheritdoc}
+     */
+    public function getAliases()
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getDependencies()
+    {
+        return [
+        
+        ];
     }
 
     

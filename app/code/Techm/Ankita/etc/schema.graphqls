@@ -5,6 +5,6 @@ type Query {
     ): [Productdata] @resolver(class: "Techm\\Ankita\\Model\\Resolver\\Products") @doc(description: ""Query by fetch custom attribute value")
 }
 
-type Productdata @doc(description: "Custom Attributes to show in Product Details Page") {
-    prod_type : String  @doc(description: "prod_type atribute")
+type Productdata @doc(description: "Get prod_type custom atribute") {
+    prod_type : String  @doc(description: "prod_type atribute value")
 }
